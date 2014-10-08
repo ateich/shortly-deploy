@@ -3,6 +3,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        separator: ';',
+      },
+      dist: {
+        src: ['public/client/app.js', 'public/client/createLinkView.js', 'public/client/link.js', 'public/client/links.js', 'public/client/linksView.js', 'public/client/linkView.js', 'public/client/router.js', 'lib/backbone.js', 'lib/handlebars.js', 'lib/jquery.js', 'lib/underscore.js' ],
+        dest: 'public/dist/built.js'
+      },
     },
 
     mochaTest: {
@@ -21,12 +28,18 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      my_target: {
+        files: {
+          'public/dist/built.min.js':['public/dist/built.js']
+        }
+      }
     },
 
     jshint: {
-      files: [
+      files: {
         // Add filespec list here
-      ],
+        src:['public/client/**/*.js']
+      },
       options: {
         force: 'true',
         jshintrc: '.jshintrc',
@@ -38,6 +51,15 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      my_target: {
+          files: [{
+            expand: true,
+            cwd: 'public/',
+            src: ['*.css', '!*.min.css'],
+            dest: 'public/dist/',
+            ext: '.min.css'
+          }]
+        }
     },
 
     watch: {
@@ -94,6 +116,10 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'cssmin',
+    'concat',
+    'uglify',
+    'jshint'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -106,6 +132,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
     // add your deploy tasks here
+    'build',
   ]);
 
 
