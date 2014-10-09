@@ -94,7 +94,7 @@ describe('', function() {
       beforeEach(function(done) {
         link = new Link({
           url: 'http://www.roflzoo.com/',
-          title: 'Rofl Zoo - Daily funny animal pictures',
+          title: 'Funny animal pictures, funny animals, funniest dogs',
           base_url: 'http://127.0.0.1:4568',
           visits: 0
         })

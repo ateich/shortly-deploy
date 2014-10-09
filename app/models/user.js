@@ -10,14 +10,32 @@ var userSchema = db.userSchema = mongoose.Schema({
 
 var User = mongoose.model('User', userSchema);
 
-User.prototype.comparePassword = function(password, callback){
-  console.log('user compare password function');
-  if(password === this.password){
-    callback(true);
-    return;
-  }
-  callback(false);
+// User.prototype.comparePassword = function(password, callback){
+//   console.log('user compare password function');
+//   if(password === this.password){
+//     callback(true);
+//     return;
+//   }
+//   callback(false);
+// };
+
+userSchema.pre('save', function(next){
+	this.hashPassword(function(err, hash){
+		this.password = hash;
+		next();
+	}.bind(this));
+});
+
+User.prototype.comparePassword = function(attemptedPassword, callback) {
+  bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
+    callback(isMatch);
+  });
 };
+
+User.prototype.hashPassword = function(callback){
+  // var cipher = Promise.promisify(bcrypt.hash);
+  bcrypt.hash(this.password, null, null, callback);
+}
 
 // var User = db.Model.extend({
 //   tableName: 'users',
