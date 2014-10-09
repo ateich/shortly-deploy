@@ -27,14 +27,16 @@ userSchema.pre('save', function(next){
 });
 
 User.prototype.comparePassword = function(attemptedPassword, callback) {
-  bcrypt.compare(attemptedPassword, this.get('password'), function(err, isMatch) {
+  bcrypt.compare(attemptedPassword, this.password, function(err, isMatch) {
     callback(isMatch);
   });
 };
 
 User.prototype.hashPassword = function(callback){
   // var cipher = Promise.promisify(bcrypt.hash);
-  bcrypt.hash(this.password, null, null, callback);
+  bcrypt.genSalt(10, function(err, salt) {
+   	bcrypt.hash(this.password, salt, null, callback);
+	}.bind(this));
 }
 
 // var User = db.Model.extend({
