@@ -1,5 +1,5 @@
 var app = require('./server-config.js');
-
-app.listen(process.env.port);
+var port = process.env.port || 1337;
+app.listen(port);
 
 console.log('Server now listening on port ' + port);
