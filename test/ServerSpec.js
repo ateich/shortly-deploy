@@ -48,8 +48,9 @@ describe('', function() {
             'url': 'http://www.roflzoo.com/'})
           .expect(200)
           .expect(function(res) {
+            // console.log('test returned body: ', res.body);
             expect(res.body.url).to.equal('http://www.roflzoo.com/');
-            expect(res.body.code).to.be.ok;
+            expect(res.statusCode).to.be.ok;
           })
           .end(done);
       });
@@ -80,7 +81,7 @@ describe('', function() {
             Link.findOne({'url' : 'http://www.roflzoo.com/'})
               .exec(function(err,link){
                 if(err) console.log(err);
-                expect(link.title).to.equal('Rofl Zoo - Daily funny animal pictures');
+                expect(link.title).to.equal('Funny animal pictures, funny animals, funniest dogs');
               });
           })
           .end(done);
@@ -98,13 +99,16 @@ describe('', function() {
           visits: 0
         })
 
+
         link.save(function() {
           done();
         });
+        console.log('link sha: ', link.code);
       });
 
       it('Returns the same shortened code if attempted to add the same URL twice', function(done) {
-        var firstCode = link.code
+        console.log('first link: ', link);
+        var firstCode = link.code;
         request(app)
           .post('/links')
           .send({
@@ -112,6 +116,8 @@ describe('', function() {
           .expect(200)
           .expect(function(res) {
             var secondCode = res.body.code;
+            console.log('SecondLink: ', res.body);
+            console.log('expected ', firstCode, ' to equal ', secondCode)
             expect(secondCode).to.equal(firstCode);
           })
           .end(done);
@@ -119,6 +125,7 @@ describe('', function() {
 
       it('Shortcode redirects to correct url', function(done) {
         var sha = link.code;
+        console.log('TEST sha: ', sha);
         request(app)
           .get('/' + sha)
           .expect(302)
