@@ -1,6 +1,6 @@
 // var Bookshelf = require('bookshelf');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://MongoLab-n:f7_yfTkVdtY4Y9XMCvadqYDHiYaKxJGT26Ror_WEccE-@ds041157.mongolab.com:41157/MongoLab-n');
 var path = require('path');
 
 var db = mongoose.connection;
