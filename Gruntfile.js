@@ -7,7 +7,19 @@ module.exports = function(grunt) {
         separator: ';',
       },
       dist: {
-        src: ['public/client/app.js', 'public/client/createLinkView.js', 'public/client/link.js', 'public/client/links.js', 'public/client/linksView.js', 'public/client/linkView.js', 'public/client/router.js', 'lib/backbone.js', 'lib/handlebars.js', 'lib/jquery.js', 'lib/underscore.js' ],
+        src: [
+          'public/lib/jquery.js', 
+          'public/lib/underscore.js', 
+          'public/lib/handlebars.js', 
+          'public/lib/backbone.js', 
+          'public/client/app.js', 
+          'public/client/router.js',
+          'public/client/link.js', 
+          'public/client/links.js', 
+          'public/client/createLinkView.js', 
+          'public/client/linksView.js', 
+          'public/client/linkView.js'
+        ],
         dest: 'public/dist/built.js'
       },
     },
